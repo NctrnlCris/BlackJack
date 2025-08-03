@@ -1,21 +1,27 @@
 package Classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Exceptions.BustException;
 import Exceptions.CutCardException;
+import Exceptions.NoPairSplitException;
 
 public class BlackJack {
     private int decks;
     private Deck totalDeck;
     private List<Card> discard;
-    private List<Card> playerHand;
     private List<Card> dealerHand;
+    private List<Card> playerHand;
+    private List<Card> playerHand2;
+    private List<Card> playerHand3;
+    private List<Card> playerHand4;
     private int playerTotal;
     private int dealerTotal;
     private int bankRoll;
     private int bet;
     private int winnings;
+    private Boolean lastHand = false;
 
     public BlackJack(int decks) {
         this.decks = decks;
@@ -25,6 +31,13 @@ public class BlackJack {
         }
         totalDeck.shuffleDeck();
         bankRoll = 1000;
+        playerHand = new ArrayList<Card>();
+        dealerHand = new ArrayList<Card>();
+    }
+
+    public void placeBet(int bet) {
+        this.bet = bet;
+        bankRoll -= bet;
     }
 
     public void dealHands() throws CutCardException {
@@ -106,6 +119,7 @@ public class BlackJack {
                 winnings = bet;
             }
         }
+        collectWinnings();
         bet = 0;
         clearTable();
     }
@@ -152,14 +166,24 @@ public class BlackJack {
 
     public void doublePlayer() throws CutCardException, BustException {
         bet = bet * 2;
+        bankRoll -= bet;
         hitPlayer();
     }
 
-    public void splitPlayer() {
-        
-    }
+    // public void splitPlayer() throws NoPairSplitException {
+    //     if playerHand
+    // }
 
     public void surrenderPlayer() {
-        
+        if (dealerHand.size() != 2 || dealerTotal != 21) {
+            winnings = (int) 0.5 * bet;
+        }
+        collectWinnings();
+        bet = 0;
+        clearTable();
+    }
+
+    public void setLastHandTrue() {
+        lastHand = true;
     }
 }
