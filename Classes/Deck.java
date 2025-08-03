@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Exceptions.CutCardException;
+
 public class Deck {
     private static final int deckQuantity = 52;
     private static final int cardQuantity = 4;
     private List<Card> deck;
 
     public Deck() {
-        generateDeck();
+        deck = new ArrayList<Card>();
     }
 
     public void shuffleDeck() {
@@ -19,9 +21,8 @@ public class Deck {
     }
 
     public void generateDeck() {
-        deck = new ArrayList<Card>();
         for (int i = 0; i < cardQuantity; i++) {
-            deck.add(new Card(Card_Enum.ACE, 1));
+            deck.add(new Card(Card_Enum.ACE, 11));
             deck.add(new Card(Card_Enum.TWO, 2));
             deck.add(new Card(Card_Enum.THREE, 3));
             deck.add(new Card(Card_Enum.FOUR, 4));
@@ -38,8 +39,20 @@ public class Deck {
         }
     }
 
-    public void removeCard() {
+    public void removeCard() throws CutCardException {
         deck.remove(0);
+        if (deck.size() < 26) {
+            throw new CutCardException();
+        }
+
+    }
+
+    public Card getNextCard() {
+        return deck.get(0);
+    }
+
+    public List<Card> getDeck() {
+        return deck;
     }
 
 
