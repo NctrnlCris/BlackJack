@@ -103,7 +103,9 @@ public class BlackJack {
             }
         }
         if (!ace) {
-            throw new BustException();
+            calculateWinnings();
+            collectWinnings();
+            clearTable();
         }
     }
 
@@ -121,7 +123,6 @@ public class BlackJack {
         }
         collectWinnings();
         bet = 0;
-        clearTable();
     }
 
     public void calculateWinnings() {
@@ -135,7 +136,7 @@ public class BlackJack {
 
     public void collectWinnings() {
         bankRoll += winnings;
-        winnings = 0;
+        //winnings = 0;
     }
 
     public void clearTable() {
@@ -147,6 +148,7 @@ public class BlackJack {
         }
         playerHand.clear();
         dealerHand.clear();
+        winnings = 0;
     }
 
 
@@ -180,10 +182,21 @@ public class BlackJack {
         }
         collectWinnings();
         bet = 0;
-        clearTable();
     }
 
     public void setLastHandTrue() {
         lastHand = true;
+    }
+
+    public int getPlayerTotal() {
+        return playerTotal;
+    }
+
+    public int getDealerTotal() {
+        return dealerTotal;
+    }
+
+    public int getWinnings() {
+        return winnings;
     }
 }
